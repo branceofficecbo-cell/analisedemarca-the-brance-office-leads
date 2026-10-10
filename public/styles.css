@@ -269,3 +269,49 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}button,a,input,select,t
   .confirmation .gifts-list .gift-access .button{font-size:14px}
 }
 @media(max-width:479px){.registration-card .fields-grid{grid-template-columns:1fr;gap:18px}.registration-card #lead-form{padding:18px}.registration-card .registration-section.person-data{padding:19px 15px}}
+
+/* Setas vetoriais: o desenho não depende da fonte de emojis do celular. */
+.action-icon{display:block;width:16px;height:16px;flex:0 0 16px}
+.confirmation-selection{display:block;margin-top:12px}
+.keep-together{white-space:nowrap}
+.conversation-label-mobile{display:none}
+
+/* Próximos passos no celular: texto usa toda a largura do cartão. */
+@media(max-width:650px){
+  .experience:has(.confirmation){padding:16px 16px 40px;min-height:0}
+  .confirmation{margin:0 auto}
+  .confirmation-intro{padding:16px 8px 28px}
+  .confirmation .receipt-status{font-size:12px;margin-bottom:20px;padding:6px 12px}
+  .confirmation #stage-title{font-size:clamp(27px,7.5vw,32px);line-height:1.16;max-width:340px;text-wrap:balance;margin-bottom:18px}
+  .confirmation-intro .stage-sub{font-size:15px;line-height:1.65;text-wrap:pretty;max-width:360px}
+  .confirmation-intro .stage-sub strong{overflow-wrap:anywhere}
+  .confirmation-selection{font-size:13px;line-height:1.6;margin-top:12px}
+  .confirmation-process,.confirmation-call,.confirmation .gifts-list{padding:24px 22px;border-radius:12px}
+  .confirmation-process>h3{font-size:17px;line-height:1.35;margin-bottom:22px;text-wrap:balance}
+  .confirmation-timeline li{position:relative;display:block;padding:20px 0}
+  .confirmation-timeline li:first-child{padding-top:0}
+  .confirmation-timeline li:last-child{padding-bottom:0}
+  .confirmation-timeline .timeline-marker{position:absolute;top:20px;left:0;margin:0;width:24px;height:24px}
+  .confirmation-timeline li:first-child .timeline-marker{top:0}
+  .confirmation-timeline h4{font-size:15px;line-height:1.45;min-height:24px;margin:0;padding:1px 0 0 34px;text-wrap:pretty}
+  .confirmation-timeline p{font-size:15px;line-height:1.65;margin-top:10px;text-wrap:pretty}
+  .confirmation-call{margin-top:18px;padding-top:26px;padding-bottom:26px;text-align:left}
+  .confirmation-call .eyebrow{font-size:12px;line-height:1.5;margin-bottom:12px}
+  .confirmation-call h3{font-size:clamp(23px,6.4vw,26px);line-height:1.2;margin:0 0 16px;max-width:320px;text-wrap:balance}
+  .confirmation-call>p:not(.eyebrow){font-size:15px;line-height:1.65;margin:0 0 22px;text-wrap:pretty}
+  .confirmation-call .button{width:100%;font-size:14px;line-height:1.4;min-height:50px;padding:13px 14px;gap:10px}
+  .conversation-label-desktop{display:none}
+  .conversation-label-mobile{display:inline}
+  .confirmation .gifts-list{margin-top:18px}
+  .confirmation .gifts-list>h2{font-size:25px;line-height:1.2;max-width:300px;margin-bottom:14px;text-wrap:balance}
+  .confirmation .gifts-list .gifts-intro{font-size:15px;line-height:1.65;margin-bottom:24px;text-wrap:pretty}
+  .confirmation .gifts-list .gift-card{gap:18px;padding:24px 0}
+  .confirmation .gifts-list .gift-card:last-child{padding-bottom:0}
+  .confirmation .gifts-list .gift-card h3{font-size:18px;line-height:1.35;margin-bottom:10px}
+  .confirmation .gifts-list .gift-card p{font-size:15px;line-height:1.65;text-wrap:pretty}
+  .confirmation .gifts-list .gift-card .gift-note{font-size:13px;line-height:1.6;margin-top:12px}
+  .confirmation .gifts-list .gift-access .button{font-size:14px;min-height:50px;padding:13px 16px;gap:10px}
+  .confirmation .gift-availability{font-size:12px;line-height:1.5}
+  .confirmation .receipt-meta{font-size:11px;line-height:1.6;margin-top:22px}
+  .site-footer{padding:18px 20px}
+}

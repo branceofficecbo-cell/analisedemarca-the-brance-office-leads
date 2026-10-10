@@ -4,7 +4,7 @@ const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
 
 function giftAccess(url,label,primary=false) {
   const className=primary?'button-black':'button-white';
-  return `<div class="gift-access">${url?`<a class="button ${className}" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} <span aria-hidden="true">↗</span></a>`:`<button class="button ${className}" type="button" disabled>${label}</button><span class="gift-availability">Em breve</span>`}</div>`;
+  return `<div class="gift-access">${url?`<a class="button ${className}" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} <svg class="action-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg></a>`:`<button class="button ${className}" type="button" disabled>${label}</button><span class="gift-availability">Em breve</span>`}</div>`;
 }
 
 export function renderGifts(config={}) {
