@@ -8,7 +8,62 @@ export function mountLeadForm({container,config,draft,onDraft,onSubmit,onBack}){
   const $=id=>container.querySelector('#'+id);
   const error=message=>{$('stage-error').textContent=message;};
   let registrationDraft=draft;
-  container.innerHTML=`<div class="registration"><h2 class="stage-heading" id="stage-title" tabindex="-1">Qual hospedagem vamos conhecer?</h2><p class="stage-sub">Agora, informe os dados da hospedagem e do responsável para solicitar sua análise.</p><form id="lead-form" novalidate><div class="honeypot" aria-hidden="true"><label for="website-check">Deixe este campo vazio</label><input id="website-check" name="website_check" tabindex="-1" autocomplete="off"></div><section class="registration-section hotel-data" aria-labelledby="hotel-section-title"><h3 id="hotel-section-title">A hospedagem</h3><div class="fields-grid">${inputField('hotel','Nome da hospedagem',{max:160,placeholder:'Nome usado para receber hóspedes',autocomplete:'organization'})}${selectField('hotel_type','Tipo de hospedagem',[['pousada','Pousada'],['hotel','Hotel independente'],['chales','Chalés ou cabanas'],['villa','Villa ou casa de temporada'],['hostel','Hostel'],['glamping','Glamping'],['outro','Outro']])}${inputField('city','Cidade',{autocomplete:'address-level2'})}${inputField('region','Estado ou país',{max:80,autocomplete:'address-level1'})}${selectField('stage','Momento do negócio',[['operacao','Em operação'],['implantacao','Em implantação'],['planejada','Em planejamento']])}<div class="field"><label for="contact-units">Número de quartos ou unidades</label><input id="contact-units" name="units" type="number" min="1" max="10000" step="1" inputmode="numeric" required placeholder="Ex.: 12"><small>Se ainda não abriu, informe a quantidade prevista.</small></div></div></section><section class="registration-section hotel-data" aria-labelledby="links-section-title"><h3 id="links-section-title">Onde podemos conhecer a hospedagem?</h3><p class="section-help" id="links-help">Se quiser, compartilhe o site, perfil ou página da hospedagem. Esses campos são opcionais.</p><p id="links-error" class="error-message" role="alert" hidden></p><div class="fields-grid">${inputField('website','Site',{type:'url',required:false,max:2048,placeholder:'https://sua-hospedagem.com.br'})}${inputField('social','Instagram ou outro perfil',{required:false,max:2048,placeholder:'@suahospedagem ou link do perfil'})}${inputField('listing','Página no Booking, Airbnb ou Google',{type:'url',required:false,max:2048,placeholder:'https://...',help:'Cole o link público da hospedagem.'})}${selectField('direct_channel','Como o hóspede reserva direto hoje?',[['whatsapp','WhatsApp'],['motor','Site com motor de reservas'],['telefone','Telefone'],['email','E-mail'],['multiplos','Mais de um canal direto'],['nenhum','Ainda não recebemos reservas diretas'],['outro','Outro']])}</div></section><section class="registration-section hotel-data" aria-labelledby="challenge-section-title"><h3 id="challenge-section-title">O que está acontecendo na sua hospedagem?</h3><div class="fields-grid"><div class="field full"><label for="contact-challenge">O que você tem percebido e mais gostaria de resolver?</label><textarea name="challenge" id="contact-challenge" minlength="10" maxlength="1500" required placeholder="Ex.: as pessoas perguntam o preço e somem, mesmo depois de mostrarmos a hospedagem."></textarea></div>${selectField('timing','Quando gostaria de resolver essa situação?',[['agora','Agora'],['3meses','Nos próximos três meses'],['3a6meses','Entre três e seis meses'],['depois','Mais adiante'],['indefinido','Ainda não definido']])}</div></section><section class="registration-section person-data" aria-labelledby="contact-section-title"><h3 id="contact-section-title">Seus dados para contato</h3><div class="fields-grid">${inputField('name','Seu nome',{autocomplete:'name',max:120})}${selectField('role','Sua função',[['proprietario','Proprietário(a) ou sócio(a)'],['gestor','Gestor(a) responsável'],['marketing','Profissional de marketing'],['outro','Outra função']])}${inputField('email','E-mail para contato',{type:'email',autocomplete:'email',max:254})}${inputField('whatsapp','WhatsApp',{type:'tel',required:false,autocomplete:'tel',max:32,placeholder:'+55 85 99999-9999'})}</div></section>${config.newsletterUrl?'<label class="check-label"><input type="checkbox" name="newsletter_interest"><span>Tenho interesse na newsletter. Vou concluir a inscrição na próxima tela.</span></label>':''}<div class="registration-selection"><strong>A análise gratuita depende de seleção.</strong><p>A equipe avalia as informações enviadas para selecionar as hospedagens. Se selecionada, você recebe por e-mail um PDF com uma análise da sua marca, recomendações e exemplos pensados para sua hospedagem.</p></div><p class="privacy-note">Usaremos os dados para registrar e avaliar sua solicitação e responder a você. Consulte o <a href="/privacidade.html" target="_blank" rel="noopener">aviso de privacidade</a>. A newsletter exige inscrição separada.</p><p id="stage-error" class="error-message" role="alert"></p><div class="form-submit"><button type="button" class="plain-button" id="registration-back">← Rever minhas respostas</button><button class="button button-black" id="submit-lead" type="submit" ${config.enabled?'':'disabled'}>Solicitar análise</button></div>${config.enabled?'':'<p class="config-note">O cadastro está temporariamente indisponível. Tente novamente mais tarde ou fale com um consultor pelo botão no início da página.</p>'}</form></div>`;
+  container.innerHTML=`<div class="registration registration-card">
+    <header class="registration-intro">
+      <p class="eyebrow">Sua solicitação de análise</p>
+      <h2 class="stage-heading" id="stage-title" tabindex="-1">Vamos conhecer sua hospedagem.</h2>
+      <p class="stage-sub">Envie seus dados e conte o que gostaria de resolver. Um consultor da THE BRANCE OFFICE fará a análise das hospedagens selecionadas.</p>
+    </header>
+    <form id="lead-form" novalidate>
+      <div class="honeypot" aria-hidden="true"><label for="website-check">Deixe este campo vazio</label><input id="website-check" name="website_check" tabindex="-1" autocomplete="off"></div>
+      <section class="registration-section person-data" aria-labelledby="contact-section-title">
+        <h3 id="contact-section-title">Seus dados para contato</h3>
+        <div class="fields-grid">
+          ${inputField('name','Seu nome',{autocomplete:'name',max:120,placeholder:'Como podemos chamar você?'})}
+          ${selectField('role','Sua função',[['proprietario','Proprietário(a) ou sócio(a)'],['gestor','Gestor(a) responsável'],['marketing','Profissional de marketing'],['outro','Outra função']])}
+          ${inputField('email','E-mail para contato',{type:'email',autocomplete:'email',max:254,placeholder:'seu@email.com'})}
+          ${inputField('whatsapp','WhatsApp',{type:'tel',required:false,autocomplete:'tel',max:32,placeholder:'+55 85 99999-9999'})}
+        </div>
+      </section>
+      <section class="registration-section hotel-data" aria-labelledby="hotel-section-title">
+        <h3 id="hotel-section-title">A hospedagem</h3>
+        <div class="fields-grid">
+          ${inputField('hotel','Nome da hospedagem',{max:160,placeholder:'Nome usado para receber hóspedes',autocomplete:'organization'})}
+          ${selectField('hotel_type','Tipo de hospedagem',[['pousada','Pousada'],['hotel','Hotel independente'],['chales','Chalés ou cabanas'],['villa','Villa ou casa de temporada'],['hostel','Hostel'],['glamping','Glamping'],['outro','Outro']])}
+          ${inputField('city','Cidade',{autocomplete:'address-level2'})}
+          ${inputField('region','Estado ou país',{max:80,autocomplete:'address-level1'})}
+          <div class="field"><label for="contact-units">Número de quartos ou unidades</label><input id="contact-units" name="units" type="number" min="1" max="10000" step="1" inputmode="numeric" required placeholder="Ex.: 12"><small>Se ainda não abriu, informe a quantidade prevista.</small></div>
+          ${selectField('stage','Momento do negócio',[['operacao','Em operação'],['implantacao','Em implantação'],['planejada','Em planejamento']])}
+          ${selectField('direct_channel','Como o hóspede reserva direto hoje?',[['whatsapp','WhatsApp'],['motor','Site com motor de reservas'],['telefone','Telefone'],['email','E-mail'],['multiplos','Mais de um canal direto'],['nenhum','Ainda não recebemos reservas diretas'],['outro','Outro']])}
+        </div>
+      </section>
+      <section class="registration-section hotel-data" aria-labelledby="challenge-section-title">
+        <h3 id="challenge-section-title">O que você gostaria de resolver?</h3>
+        <div class="fields-grid">
+          <div class="field full"><label for="contact-challenge">O que você tem percebido na sua hospedagem?</label><textarea name="challenge" id="contact-challenge" minlength="10" maxlength="1500" required placeholder="Ex.: as pessoas perguntam o preço e somem, mesmo depois de mostrarmos a hospedagem."></textarea></div>
+          ${selectField('timing','Quando gostaria de resolver essa situação?',[['agora','Agora'],['3meses','Nos próximos três meses'],['3a6meses','Entre três e seis meses'],['depois','Mais adiante'],['indefinido','Ainda não definido']])}
+        </div>
+      </section>
+      <section class="registration-section hotel-data" aria-labelledby="links-section-title">
+        <h3 id="links-section-title">Onde podemos conhecer a hospedagem?</h3>
+        <p class="section-help" id="links-help">Esses links são opcionais. Se quiser, compartilhe os materiais da sua hospedagem.</p>
+        <p id="links-error" class="error-message" role="alert" hidden></p>
+        <div class="fields-grid">
+          ${inputField('website','Site',{type:'url',required:false,max:2048,placeholder:'https://sua-hospedagem.com.br'})}
+          ${inputField('social','Instagram ou outro perfil',{required:false,max:2048,placeholder:'@suahospedagem ou link do perfil'})}
+          <div class="field full">${inputField('listing','Página no Booking, Airbnb ou Google',{type:'url',required:false,max:2048,placeholder:'https://...',help:'Cole o link público da hospedagem.'})}</div>
+        </div>
+      </section>
+      <div class="registration-finish">
+        <div class="registration-selection"><strong>A análise gratuita depende de seleção.</strong><p>A equipe avalia as solicitações recebidas. Se sua hospedagem for selecionada, um consultor envia por e-mail um relatório com análise da marca, recomendações e exemplos pensados para ela.</p></div>
+        ${config.newsletterUrl?'<label class="check-label"><input type="checkbox" name="newsletter_interest"><span>Tenho interesse na newsletter. Vou concluir a inscrição na próxima tela.</span></label>':''}
+        <p class="privacy-note">Usaremos os dados para avaliar sua solicitação e responder a você. Consulte o <a href="/privacidade.html" target="_blank" rel="noopener">aviso de privacidade</a>. A newsletter exige inscrição separada.</p>
+        <p id="stage-error" class="error-message" role="alert"></p>
+        <div class="form-submit"><button type="button" class="plain-button" id="registration-back">← Rever minhas respostas</button><button class="button button-black" id="submit-lead" type="submit" ${config.enabled?'':'disabled'}>Solicitar análise <span aria-hidden="true">→</span></button></div>
+        ${config.enabled?'':'<p class="config-note">O cadastro está temporariamente indisponível. Tente novamente mais tarde ou fale com um consultor pelo botão no início da página.</p>'}
+      </div>
+    </form>
+  </div>`;
   const form=$('lead-form');
   for(const [name,value] of Object.entries(registrationDraft)){const field=form.elements.namedItem(name);if(field){if(field.type==='checkbox')field.checked=value==='on';else field.value=value;}}
   form.addEventListener('input',event=>{

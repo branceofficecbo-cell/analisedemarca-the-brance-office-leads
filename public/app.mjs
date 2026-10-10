@@ -1,6 +1,6 @@
 import {mountLeadForm} from './lead-form.mjs';
 import {sendApplication,submissionMessage} from './submission.mjs';
-import {renderGifts} from './gifts.mjs';
+import {renderConfirmation} from './confirmation.mjs';
 import {VERSION,QUESTIONNAIRE_VERSION,QUESTIONS,validateLead} from './core.mjs';
 
 const $=id=>document.getElementById(id);
@@ -45,6 +45,13 @@ function renderQuestionnaire(){
   $('questionnaire-form').addEventListener('change',event=>{
     if(event.target.name.startsWith('answer-')){const index=Number(event.target.name.slice(7));state.answers[index]=event.target.value==='unknown'?null:Number(event.target.value);persist();error('');}
   });
+  $('questionnaire-form').addEventListener('click',event=>{
+    const input=event.target;
+    if(!(input instanceof HTMLInputElement)||input.type!=='radio'||!input.name.startsWith('answer-')||event.detail===0)return;
+    const index=Number(input.name.slice(7));
+    const next=document.querySelector(`#question-${index+1}`)?.closest('.question-item')||document.querySelector('.questionnaire-actions');
+    if(next)window.scrollTo({top:Math.max(0,window.scrollY+next.getBoundingClientRect().top-24),behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  });
   $('questionnaire-form').addEventListener('submit',event=>{
     event.preventDefault();const unanswered=state.answers.indexOf('unanswered');
     if(unanswered!==-1){error(`Responda à pergunta ${unanswered+1} para continuar.`);const field=document.querySelector(`#question-${unanswered} input`);field.focus();field.reportValidity();return;}
@@ -75,8 +82,7 @@ async function submitLead(fields){
 function renderSuccess(data,raw){
   stage='success';
   document.querySelectorAll('[data-step]').forEach(el=>{el.classList.remove('active');el.removeAttribute('aria-current');});
-  const mail=data.email_status==='enviado'?'O envio do e-mail de confirmação foi solicitado. Se não o encontrar, confira a pasta de spam.':'Seu cadastro está salvo. O e-mail de confirmação ainda está pendente de envio.';
-  $('stage').innerHTML=`<div class="receipt-icon" aria-hidden="true">✓</div><p class="eyebrow">Solicitação registrada</p><h2 class="stage-heading" id="stage-title" tabindex="-1">Solicitação recebida.</h2><p class="stage-sub">${escape(raw.contact.name.split(/\s+/)[0])}, recebemos as informações de ${escape(raw.contact.hotel)}. A equipe vai avaliar as informações da hospedagem. A análise gratuita será feita apenas para as hospedagens selecionadas. O cadastro não garante a seleção.</p><p class="small muted">${mail}</p><section class="confirmation-next"><h2>O que acontece agora?</h2><p>A equipe vai conferir as informações enviadas para selecionar as hospedagens.</p><p>Se sua hospedagem for selecionada, um consultor envia por e-mail um PDF com uma análise da sua marca, recomendações e exemplos pensados para sua hospedagem.</p></section>${renderGifts(config)}<section class="call-panel final-call"><p class="eyebrow">Uma conversa sobre seu negócio</p><h2>Quer conversar sobre sua hospedagem?</h2><p>Agende um horário com um consultor para falar sobre seu momento e o que você quer melhorar.</p><a class="button button-black" href="${escape(config.bookingUrl)}" target="_blank" rel="noopener noreferrer">Conversar sobre minha hospedagem <span aria-hidden="true">↗</span></a></section><p class="receipt-meta">Protocolo: ${escape(raw.submission_id)}</p>`;
+  $('stage').innerHTML=renderConfirmation({data,contact:raw.contact,submissionId:raw.submission_id,config});
   savedPayload=null;registrationDraft={};
   try{sessionStorage.removeItem(KEY);}catch{}
   focusStage();

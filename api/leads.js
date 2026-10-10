@@ -11,7 +11,7 @@ export default async function handler(req,res) {
     if(raw.website_check)return sendJson(res,422,{error:'Não foi possível validar o envio.'});
     const lead=validateLead(raw);
     receipt=tokenFor(lead.submission_id,s.secret);
-    const result=await callScript('submit',{lead,payload_hash:hashPayload(lead),fingerprint:fingerprint(req,s.secret),booking_url:s.booking,newsletter_url:s.newsletter},s);
+    const result=await callScript('submit',{lead,payload_hash:hashPayload(lead),fingerprint:fingerprint(req,s.secret),booking_url:s.booking,newsletter_url:s.newsletter,confirmation_url:new URL('/confirmacao.html',s.app).href},s);
     if(!result.ok){
       const code=['AUTH','CONFIG','BUSY','CONFLICT','RATE_LIMIT','SHEET_COLUMNS','SHEET_ACCESS'].includes(result.code)?result.code:'GOOGLE_RESPONSE';
       console.error('TBO_SUBMIT_'+code);
