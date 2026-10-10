@@ -1,5 +1,5 @@
 {
-  "name": "the-brance-office-leads",
+  "name": "analisedemarca-the-brance-office-leads",
   "version": "2.0.0",
   "private": true,
   "type": "module",
@@ -8,6 +8,6 @@
     "node": "22.x"
   },
   "scripts": {
-    "check": "node .github/check.mjs"
+    "check": "node check.mjs"
   }
 }
