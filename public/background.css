@@ -1,0 +1,4 @@
+/* Fundo inspirado na referência, com malha grande preservada. */
+body{position:relative;isolation:isolate;background:#fafbf7}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-color:#fafbf7;background-image:linear-gradient(to right,rgba(90,110,66,.075) 1px,transparent 1px),linear-gradient(to bottom,rgba(90,110,66,.075) 1px,transparent 1px),url('/landscape-background.svg');background-size:96px 96px,96px 96px,cover;background-position:0 0,0 0,center bottom;background-repeat:repeat,repeat,no-repeat}
+@media(max-width:650px){body::before{background-size:88px 88px,88px 88px,100% 100%;background-position:0 0,0 0,center bottom}}

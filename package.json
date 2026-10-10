@@ -1,0 +1,13 @@
+{
+  "name": "the-brance-office-leads",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Avaliação de hospedagens e solicitação de análise de marca da THE BRANCE OFFICE",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "check": "node .github/check.mjs"
+  }
+}
