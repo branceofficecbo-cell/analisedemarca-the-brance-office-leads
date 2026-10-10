@@ -69,7 +69,7 @@ async function submitLead(fields){
   try{validateLead(raw);}catch(e){error(e.message);return;}
   if(savedPayload&&JSON.stringify(raw)!==JSON.stringify(savedPayload)){error('Há um envio anterior sem confirmação. Aguarde a verificação ou tente novamente com os dados anteriores.');return;}
   savedPayload=raw;
-  submitting=true;$('submit-lead').disabled=true;$('submit-lead').textContent='Enviando…';error('');
+  submitting=true;$('lead-form').setAttribute('aria-busy','true');$('submit-lead').disabled=true;$('submit-lead').textContent='Enviando…';error('');
   for(const field of document.querySelectorAll('#lead-form input,#lead-form select,#lead-form textarea,#registration-back'))field.disabled=true;
   try{
     const result=await sendApplication(raw,{onPending:()=>error('Estamos confirmando o recebimento. Mantenha esta página aberta.')});
@@ -77,7 +77,7 @@ async function submitLead(fields){
     if(result.retryEditable)savedPayload=null;
     error(submissionMessage(result.code));
   }catch{error(submissionMessage('GOOGLE_NETWORK'));}
-  finally{submitting=false;for(const field of document.querySelectorAll('#lead-form input,#lead-form select,#lead-form textarea,#registration-back'))field.disabled=false;if($('submit-lead')){$('submit-lead').disabled=false;$('submit-lead').innerHTML='Tentar novamente <span aria-hidden="true">→</span>';}}
+  finally{submitting=false;$('lead-form')?.setAttribute('aria-busy','false');for(const field of document.querySelectorAll('#lead-form input,#lead-form select,#lead-form textarea,#registration-back'))field.disabled=false;if($('submit-lead')){$('submit-lead').disabled=false;$('submit-lead').innerHTML='Tentar novamente <span aria-hidden="true">→</span>';}}
 }
 function renderSuccess(data,raw){
   stage='success';

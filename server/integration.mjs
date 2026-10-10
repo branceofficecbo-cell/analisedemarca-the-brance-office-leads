@@ -6,7 +6,7 @@ export function settings(env=process.env) {
   const script = safeUrl((env.TBO_SCRIPT_URL||'').trim());
   const secret=(env.TBO_SECRET||'').trim();
   const ready = Boolean(app && script && /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(script) && /^[a-f0-9]{64}$/i.test(secret));
-  return { ready, app, script, secret, booking:safeUrl(env.BOOKING_URL)||'https://cal.com/thebranceoffice/conversa-30min', newsletter:safeUrl(env.NEWSLETTER_URL), masterclass:safeUrl(env.MASTERCLASS_URL), preview:['deploy-preview','branch-deploy'].includes(env.CONTEXT) };
+  return { ready, app, script, secret, booking:safeUrl(env.BOOKING_URL)||'https://cal.com/thebranceoffice/conversa-30min', newsletter:safeUrl(env.NEWSLETTER_URL)||'https://brance.substack.com/', masterclass:safeUrl(env.MASTERCLASS_URL), preview:['deploy-preview','branch-deploy'].includes(env.CONTEXT) };
 }
 export const APP_VERSION='2.0.0';
 export function publicSettings(env=process.env) { const s=settings(env); return { enabled:s.ready&&!s.preview,bookingUrl:s.booking,newsletterUrl:s.newsletter,masterclassUrl:s.masterclass,version:APP_VERSION }; }

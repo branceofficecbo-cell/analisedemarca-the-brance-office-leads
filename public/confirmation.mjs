@@ -8,7 +8,7 @@ export function renderConfirmation({data,contact,submissionId,config}){
   const hotel=contact?escape(contact.hotel):'';
   const mail=!data?'A confirmação de recebimento chega ao e-mail informado no cadastro.':data.email_status==='enviado'
     ?'O envio do e-mail de confirmação foi solicitado. Confira sua caixa de entrada e a pasta de spam.'
-    :'Seu cadastro está salvo. O e-mail de confirmação ainda está pendente de envio.';
+    :'Seu cadastro já está registrado. A confirmação por e-mail será enviada em seguida.';
   const booking=safeUrl(config.bookingUrl)||'https://cal.com/thebranceoffice/conversa-30min';
   return `<div class="confirmation">
     <header class="confirmation-intro">
